@@ -9,7 +9,7 @@ export default function Map() {
 
   useEffect(() => {
     mapboxgl.accessToken =
-      '';
+      'pk.eyJ1Ijoic3Jpbmk0MSIsImEiOiJjbHpkb3FmMmkwcGRzMnJvYTkzaDBleHltIn0.xKlqzZg4eski9OSSnUATww';
 
     mapRef.current = new mapboxgl.Map({
       style: 'mapbox://styles/mapbox/light-v11',

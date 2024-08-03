@@ -36,3 +36,35 @@ export const signupFormSchema = createInsertSchema(userTable, {
     message: 'password must be at least 8 characters long',
   }),
 });
+
+export const buildingsTable = sqliteTable('buildings', {
+  id: integer('id').primaryKey(),
+  name: text('name').notNull(),
+  type: text('type').notNull(),
+  lat: integer('lat').notNull(),
+  lon: integer('lon').notNull(),
+  occupancy: integer('occupancy').notNull(),
+  height: integer('height').notNull(),
+  width: integer('width').notNull(),
+  length: integer('length').notNull(),
+});
+
+export type InsertBuilding = typeof buildingsTable.$inferInsert;
+export type SelectBuilding = typeof buildingsTable.$inferSelect;
+
+const longitudeError = {
+  message: '-180° to 180°',
+};
+
+const latitudeError = {
+  message: '-90° and 90°',
+};
+
+export const insertBuildingFormSchema = createInsertSchema(buildingsTable, {
+  lon: z.coerce.number().min(-180, longitudeError).max(180, longitudeError),
+  lat: z.coerce.number().min(-90, latitudeError).max(90, latitudeError),
+  occupancy: z.coerce.number(),
+  height: z.coerce.number(),
+  length: z.coerce.number(),
+  width: z.coerce.number(),
+});
