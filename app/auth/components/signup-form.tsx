@@ -14,9 +14,10 @@ import { Button } from '@/components/ui/button';
 import { signup } from '../actions';
 import { signupFormSchema } from '../../../db/schema';
 import { toast } from 'sonner';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 export default function SignUpForm() {
+  const router = useRouter();
   const form = useForm<z.infer<typeof signupFormSchema>>({
     resolver: zodResolver(signupFormSchema),
     defaultValues: {
@@ -31,11 +32,13 @@ export default function SignUpForm() {
         return toast.success(result.success, {
           action: {
             label: 'Login',
-            onClick: () => redirect('/auth/'),
+            onClick: () => router.replace('/auth'),
           },
         });
       }
-      if ('error' in result) return toast.error(result.error);
+      if ('error' in result) {
+        return toast.error(result.error);
+      }
     });
   }
 
@@ -71,8 +74,8 @@ export default function SignUpForm() {
               </FormItem>
             )}
           />
-          <Button size="sm" type="submit" className="self-center px-10">
-            Create Account
+          <Button size="sm" type="submit" className="self-center ">
+            Sign up
           </Button>
         </form>
       </Form>

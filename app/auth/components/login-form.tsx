@@ -15,8 +15,10 @@ import { Button } from '@/components/ui/button';
 import { login } from '../actions';
 import { toast } from 'sonner';
 import { loginFormSchema } from '@/db/schema';
+import { useRouter } from 'next/navigation';
 
 export default function LogInForm() {
+  const router = useRouter()
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
@@ -29,8 +31,9 @@ export default function LogInForm() {
 
   function onSubmit(values: z.infer<typeof loginFormSchema>) {
     login(values).then((result) => {
-      if (!result) return;
-      //else if ('error' in result) return toast.error(result.error);
+      if ('success' in result) return router.replace('/home');
+      else if ('error' in result) return toast.error(result.error);
+      else toast.error('Some error has occurred');
     });
   }
 

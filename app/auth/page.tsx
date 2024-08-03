@@ -11,11 +11,11 @@ export default function AuthPage() {
       {loggingIn ? <LogInForm /> : <SignUpForm />}
       <Button
         size="sm"
-        className="text-primary/80"
+        className="text-primary/60 group"
         variant="link"
         onClick={() => setLoggingIn((prev) => !prev)}
       >
-        {loggingIn ? 'Create User' : 'Sign In'}
+        <small>{loggingIn ? 'Create an account' : 'Sign in instead'}</small>
       </Button>
     </>
   );

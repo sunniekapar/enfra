@@ -3,16 +3,17 @@ import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
 export const userTable = sqliteTable('user', {
-  id: integer('id').primaryKey(),
+  id: integer('id', { mode: 'number' }).primaryKey(),
   username: text('username').notNull().unique(),
   password: text('password').notNull(),
 });
 
 export const sessionTable = sqliteTable('session', {
   id: text('id').primaryKey(),
-  userId: text('user_id')
+  userId: integer('user_id')
     .notNull()
     .references(() => userTable.id),
+  expiresAt: integer('expires_at').notNull(),
 });
 
 export type InsertUser = typeof userTable.$inferInsert;

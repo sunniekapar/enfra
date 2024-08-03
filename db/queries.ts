@@ -1,16 +1,16 @@
 import { eq } from 'drizzle-orm';
 import { db } from '@/db';
-import { InsertUser, signupFormSchema, userTable } from './schema';
-import { z } from 'zod';
+import { InsertUser, userTable } from './schema';
 
 export async function getUserByUsername(username: string) {
-  return await db
+  const user = await db
     .selectDistinct()
     .from(userTable)
-    .where(eq(userTable.username, username))
-    .get();
+    .where(eq(userTable.username, username));
+  if (!user) return null;
+  return user[0];
 }
 
 export async function insertUser(values: InsertUser) {
-  return await db.insert(userTable).values(values).returning();
+  return db.insert(userTable).values(values).returning();
 }
