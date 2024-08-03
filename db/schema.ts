@@ -1,9 +1,9 @@
-import { int, sqliteTable, text } from 'drizzle-orm/sqlite-core';
+import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
 export const userTable = sqliteTable('user', {
-  id: int('id', { mode: 'number' }).primaryKey({ autoIncrement: true }),
+  id: integer('id').primaryKey(),
   username: text('username').notNull().unique(),
   password: text('password').notNull(),
 });
@@ -23,5 +23,15 @@ export const loginFormSchema = createSelectSchema(userTable, {
 });
 
 export const signupFormSchema = createInsertSchema(userTable, {
-  id: z.string().optional(),
+  username: z
+    .string()
+    .min(6, {
+      message: 'Username must be at least 6 characters long',
+    })
+    .max(20, {
+      message: 'Username must between 6-20 characters',
+    }),
+  password: z.string().min(8, {
+    message: 'password must be at least 8 characters long',
+  }),
 });
