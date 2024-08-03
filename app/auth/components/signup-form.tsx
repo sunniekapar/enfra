@@ -32,7 +32,7 @@ export default function SignUpForm() {
         return toast.success(result.success, {
           action: {
             label: 'Login',
-            onClick: () => router.replace('/auth'),
+            onClick: () => router.push('/auth'),
           },
         });
       }
