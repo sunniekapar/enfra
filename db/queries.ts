@@ -1,6 +1,11 @@
 import { eq } from 'drizzle-orm';
 import { db } from '@/db';
-import { InsertUser, userTable } from './schema';
+import {
+  buildingsTable,
+  InsertBuilding,
+  InsertUser,
+  userTable,
+} from './schema';
 
 export async function getUserByUsername(username: string) {
   const user = await db
@@ -13,4 +18,25 @@ export async function getUserByUsername(username: string) {
 
 export async function insertUser(values: InsertUser) {
   return db.insert(userTable).values(values).returning();
+}
+
+export async function getUserById(id: number) {
+  const user = await db
+    .selectDistinct()
+    .from(userTable)
+    .where(eq(userTable.id, id));
+  return user[0];
+}
+
+export async function getBuildingById(id: number) {
+  const existingBuilding = await db
+    .selectDistinct()
+    .from(buildingsTable)
+    .where(eq(buildingsTable.id, id));
+  return existingBuilding[0];
+}
+
+export async function insertBuilding(values: InsertBuilding) {
+  const building = await db.insert(buildingsTable).values(values).returning();
+  return building[0];
 }

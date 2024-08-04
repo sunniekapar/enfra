@@ -47,6 +47,9 @@ export const buildingsTable = sqliteTable('buildings', {
   height: integer('height').notNull(),
   width: integer('width').notNull(),
   length: integer('length').notNull(),
+  userId: integer('user_id')
+    .notNull()
+    .references(() => userTable.id),
 });
 
 export type InsertBuilding = typeof buildingsTable.$inferInsert;
@@ -57,7 +60,7 @@ const longitudeError = {
 };
 
 const latitudeError = {
-  message: '-90° and 90°',
+  message: '-90° to 90°',
 };
 
 export const insertBuildingFormSchema = createInsertSchema(buildingsTable, {
@@ -67,4 +70,5 @@ export const insertBuildingFormSchema = createInsertSchema(buildingsTable, {
   height: z.coerce.number(),
   length: z.coerce.number(),
   width: z.coerce.number(),
+  userId: z.number()  .optional(),
 });
