@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   FormControl,
@@ -7,36 +7,37 @@ import {
   Form,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
+} from "@/components/ui/form";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { useContext } from 'react';
-import { Input } from '@/components/ui/input';
-import { insertBuildingFormSchema } from '@/db/schema';
-import { Button } from '@/components/ui/button';
-import { BuildingContext } from '@/context/buildingContext';
-import { createBuilding, getCurrentUser } from '../actions';
-import { useRouter } from 'next/navigation';
-import BuildingIcon from '@/components/building-icon';
+} from "@/components/ui/select";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { useContext, useEffect } from "react";
+import { Input } from "@/components/ui/input";
+import { insertBuildingFormSchema } from "@/db/schema";
+import { Button } from "@/components/ui/button";
+import { BuildingContext } from "@/context/buildingContext";
+import { createBuilding, getCurrentUser } from "../actions";
+import { useRouter } from "next/navigation";
+import BuildingIcon from "@/components/building-icon";
+import { BuildingType } from "@/lib/types";
 
 export default function BuildingForm() {
   const { push } = useRouter();
   const { lon, lat } = useContext(BuildingContext);
 
   const form = useForm<z.infer<typeof insertBuildingFormSchema>>({
-    mode: 'onChange',
+    mode: "onChange",
     resolver: zodResolver(insertBuildingFormSchema),
     defaultValues: {
-      name: '',
-      type: '',
+      name: "",
+      type: "",
       lon: lon,
       lat: lat,
       occupancy: 0,
@@ -46,23 +47,29 @@ export default function BuildingForm() {
     },
   });
 
+  useEffect(() => {
+    form.setValue("lon", lon);
+    form.setValue("lat", lat);
+  }, [lon, lat]);
+
   function onSubmit(values: z.infer<typeof insertBuildingFormSchema>) {
     getCurrentUser().then((result) => {
-      if (!result) return push('/auth');
+      if (!result) return push("/auth");
       createBuilding({ ...values, userId: result.id }).then((result) => {
         push(`/building/${result.id}`);
       });
+      form.reset();
     });
   }
 
   return (
     <>
-      <h1 className="font-bold text-4xl mb-7 bg-clip-text text-transparent bg-gradient-to-b from-zinc-50 from-50% to-primary/10">
+      <h1 className="mb-7 bg-gradient-to-b from-primary to-primary/40 bg-clip-text text-4xl font-bold text-transparent">
         Create your building.
       </h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="grid xl:grid-cols-12 gap-3.5">
+          <div className="grid gap-3.5 xl:grid-cols-12">
             <FormField
               name="name"
               control={form.control}
@@ -149,9 +156,9 @@ export default function BuildingForm() {
               )}
             />
 
-            <div className="xl:col-span-12 mt-7">
-              <h2 className="font-semibold text-2xl">
-                Dimensions{' '}
+            <div className="mt-7 xl:col-span-12">
+              <h2 className="text-2xl font-semibold">
+                Dimensions{" "}
                 <span className="text-sm text-primary/60">&#40;ft.&#41;</span>
               </h2>
             </div>
@@ -205,10 +212,10 @@ export default function BuildingForm() {
   );
 }
 
-const buildings: { label: string; value: string }[] = [
-  { value: 'residential', label: 'Residential' },
-  { value: 'apartment', label: 'Apartment' },
-  { value: 'office', label: 'Office' },
-  { value: 'shop', label: 'Shop' },
-  { value: 'commercial', label: 'Commercial' },
+const buildings: { label: string; value: BuildingType }[] = [
+  { value: "residential", label: "Residential" },
+  { value: "apartment", label: "Apartment" },
+  { value: "office", label: "Office" },
+  { value: "shop", label: "Shop" },
+  { value: "commercial", label: "Commercial" },
 ];

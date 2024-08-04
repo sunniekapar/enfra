@@ -1,11 +1,11 @@
-import { eq } from 'drizzle-orm';
-import { db } from '@/db';
+import { eq } from "drizzle-orm";
+import { db } from "@/db";
 import {
   buildingsTable,
   InsertBuilding,
   InsertUser,
   userTable,
-} from './schema';
+} from "./schema";
 
 export async function getUserByUsername(username: string) {
   const user = await db
@@ -39,4 +39,15 @@ export async function getBuildingById(id: number) {
 export async function insertBuilding(values: InsertBuilding) {
   const building = await db.insert(buildingsTable).values(values).returning();
   return building[0];
+}
+
+export async function getAllBuildings() {
+  return await db
+    .select({
+      lat: buildingsTable.lat,
+      lon: buildingsTable.lon,
+      type: buildingsTable.type,
+      id: buildingsTable.id,
+    })
+    .from(buildingsTable);
 }

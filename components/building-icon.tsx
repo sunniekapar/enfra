@@ -5,20 +5,19 @@ import {
   House,
   Store,
   Warehouse,
-} from 'lucide-react';
+} from "lucide-react";
 
 export default function BuildingIcon({ icon }: { icon: string }) {
-  
   switch (icon) {
-    case 'residential':
+    case "residential":
       return <House />;
-    case 'apartment':
+    case "apartment":
       return <Hotel />;
-    case 'office':
+    case "office":
       return <Building2 />;
-    case 'shop':
+    case "shop":
       return <Store />;
-    case 'commercial':
+    case "commercial":
       return <Warehouse />;
     default:
       return <Building />;

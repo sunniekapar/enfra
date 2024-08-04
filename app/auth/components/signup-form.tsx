@@ -1,42 +1,42 @@
-'use client';
+"use client";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from '@/components/ui/form';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { signup } from '../actions';
-import { signupFormSchema } from '../../../db/schema';
-import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
+} from "@/components/ui/form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { signup } from "../actions";
+import { signupFormSchema } from "../../../db/schema";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function SignUpForm() {
   const router = useRouter();
   const form = useForm<z.infer<typeof signupFormSchema>>({
     resolver: zodResolver(signupFormSchema),
     defaultValues: {
-      username: '',
-      password: '',
+      username: "",
+      password: "",
     },
   });
 
   function onSubmit(values: z.infer<typeof signupFormSchema>) {
     signup(values).then((result) => {
-      if ('success' in result) {
+      if ("success" in result) {
         return toast.success(result.success, {
           action: {
-            label: 'Login',
-            onClick: () => router.push('/auth'),
+            label: "Login",
+            onClick: () => router.push("/auth"),
           },
         });
       }
-      if ('error' in result) {
+      if ("error" in result) {
         return toast.error(result.error);
       }
     });
@@ -48,7 +48,7 @@ export default function SignUpForm() {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-2.5 flex flex-col min-w-72"
+          className="flex min-w-72 flex-col space-y-2.5"
         >
           <FormField
             control={form.control}
@@ -74,7 +74,7 @@ export default function SignUpForm() {
               </FormItem>
             )}
           />
-          <Button size="sm" type="submit" className="self-center ">
+          <Button size="sm" type="submit" className="self-center">
             Sign up
           </Button>
         </form>

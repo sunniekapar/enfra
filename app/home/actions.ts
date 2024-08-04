@@ -1,13 +1,20 @@
-'use server';
+"use server";
 
-import { insertBuilding } from '@/db/queries';
-import { InsertBuilding } from '@/db/schema';
-import { getUser } from '@/lib/lucia';
+import { getAllBuildings, insertBuilding } from "@/db/queries";
+import { InsertBuilding } from "@/db/schema";
+import { getUser } from "@/lib/lucia";
+import { revalidatePath } from "next/cache";
 
 export async function createBuilding(values: InsertBuilding) {
-  return await insertBuilding(values)
+  const building = await insertBuilding(values);
+  revalidatePath("/home");
+  return building;
 }
 
 export async function getCurrentUser() {
   return await getUser();
+}
+
+export async function findAllBuildings() {
+  return await getAllBuildings();
 }

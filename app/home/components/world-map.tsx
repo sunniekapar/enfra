@@ -1,54 +1,83 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import Map, { Layer, LayerProps, Marker } from 'react-map-gl';
-import { Building2 } from 'lucide-react';
+import Map, { Layer, LayerProps, Marker } from "react-map-gl";
 
-import 'mapbox-gl/dist/mapbox-gl.css';
+import "mapbox-gl/dist/mapbox-gl.css";
+import Link from "next/link";
+import BuildingIcon from "@/components/building-icon";
+import { LngLat, MapMouseEvent } from "mapbox-gl";
+import { useContext } from "react";
+import { BuildingContext } from "@/context/buildingContext";
+import { MapPinHouse } from "lucide-react";
 
 const layer: LayerProps = {
-  id: 'add-3d-buildings',
-  source: 'composite',
-  'source-layer': 'building',
-  filter: ['==', 'extrude', 'true'],
-  type: 'fill-extrusion',
+  id: "add-3d-buildings",
+  source: "composite",
+  "source-layer": "building",
+  filter: ["==", "extrude", "true"],
+  type: "fill-extrusion",
   minzoom: 15,
   paint: {
-    'fill-extrusion-color': '#aaa',
-    'fill-extrusion-height': [
-      'interpolate',
-      ['linear'],
-      ['zoom'],
+    "fill-extrusion-color": "#aaa",
+    "fill-extrusion-height": [
+      "interpolate",
+      ["linear"],
+      ["zoom"],
       15,
       0,
       15.05,
-      ['get', 'height'],
+      ["get", "height"],
     ],
   },
 };
 
-export default function WorldMap() {
+export default function WorldMap({
+  markers,
+}: {
+  markers: { lat: number; lon: number; type: string; id: number }[];
+}) {
+  const { setLon, setLat, lon, lat } = useContext(BuildingContext);
+
+  const handleClick = (lngLat: LngLat) => {
+    setLon(lngLat.lng);
+    setLat(lngLat.lat);
+  };
+
   return (
     <Map
       mapboxAccessToken="pk.eyJ1Ijoic3Jpbmk0MSIsImEiOiJjbHpkb3FmMmkwcGRzMnJvYTkzaDBleHltIn0.xKlqzZg4eski9OSSnUATww"
       renderWorldCopies={true}
       initialViewState={{
-        longitude: -73.865433,
-        latitude: 40.837048,
+        longitude: -79.378129,
+        latitude: 43.656992,
         zoom: 18,
         pitch: 45,
       }}
       mapStyle="mapbox://styles/mapbox/dark-v11"
       style={{
-        position: 'absolute',
-        top: '0',
-        bottom: '0',
-        borderRadius: '1rem',
+        position: "absolute",
+        top: "0",
+        bottom: "0",
+        borderRadius: "1rem",
       }}
+      projection={{ name: "globe" }}
+      attributionControl={false}
+      onClick={(e: MapMouseEvent) => handleClick(e.lngLat)}
     >
-      <Marker longitude={-73.865433} latitude={40.837048}>
-        <Building2 />
+      <Marker longitude={lon} latitude={lat}>
+        <MapPinHouse className="size-10 text-violet-500" />
       </Marker>
+
+      {markers.map((marker) => (
+        <Link
+          href={`/building/${marker.id}`}
+          key={`${marker.lat},${marker.lon}`}
+        >
+          <Marker longitude={marker.lon} latitude={marker.lat}>
+            <BuildingIcon icon={marker.type} />
+          </Marker>
+        </Link>
+      ))}
       <Layer {...layer} />
     </Map>
   );

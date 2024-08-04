@@ -1,10 +1,10 @@
-import { DrizzleSQLiteAdapter } from '@lucia-auth/adapter-drizzle';
-import { db } from '@/db';
-import { sessionTable, userTable } from '@/db/schema';
-import { Lucia } from 'lucia';
-import { cookies } from 'next/headers';
-import { getUserById, getUserByUsername } from '@/db/queries';
-import { eq } from 'drizzle-orm';
+import { DrizzleSQLiteAdapter } from "@lucia-auth/adapter-drizzle";
+import { db } from "@/db";
+import { sessionTable, userTable } from "@/db/schema";
+import { Lucia } from "lucia";
+import { cookies } from "next/headers";
+import { getUserById, getUserByUsername } from "@/db/queries";
+import { eq } from "drizzle-orm";
 
 const adapter = new DrizzleSQLiteAdapter(db, sessionTable, userTable);
 
@@ -14,7 +14,7 @@ export const lucia = new Lucia(adapter, {
   },
 });
 
-declare module 'lucia' {
+declare module "lucia" {
   interface Register {
     Lucia: typeof lucia;
     UserId: number;
@@ -33,7 +33,7 @@ export async function getUser() {
       cookies().set(
         newSessionCookie.name,
         newSessionCookie.value,
-        newSessionCookie.attributes
+        newSessionCookie.attributes,
       );
     }
     if (!session) {
@@ -41,11 +41,11 @@ export async function getUser() {
       cookies().set(
         newSessionCookie.name,
         newSessionCookie.value,
-        newSessionCookie.attributes
+        newSessionCookie.attributes,
       );
     }
   } catch (error) {
-    throw new Error('Error has occured');
+    throw new Error("Error has occured");
   }
 
   if (!user?.id) return;
