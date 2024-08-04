@@ -51,3 +51,14 @@ export async function getAllBuildings() {
     })
     .from(buildingsTable);
 }
+
+export async function getBuildingsByUserId(id: number) {
+  return await db
+    .selectDistinct()
+    .from(buildingsTable)
+    .where(eq(buildingsTable.userId, id));
+}
+
+export async function deleteBuildingById(id: number) {
+  return await db.delete(buildingsTable).where(eq(buildingsTable.id, id));
+}

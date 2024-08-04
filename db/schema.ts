@@ -71,4 +71,9 @@ export const insertBuildingFormSchema = createInsertSchema(buildingsTable, {
   length: z.coerce.number(),
   width: z.coerce.number(),
   userId: z.number().optional(),
+  name: z
+    .string()
+    .min(3, { message: "6-20 characters" })
+    .max(20, { message: "6-20 characters" }),
+  type: z.enum(['residential', 'apartment', 'shop', 'office', 'commercial'])
 });

@@ -1,6 +1,11 @@
 "use server";
 
-import { getAllBuildings, insertBuilding } from "@/db/queries";
+import {
+  deleteBuildingById,
+  getAllBuildings,
+  getBuildingsByUserId,
+  insertBuilding,
+} from "@/db/queries";
 import { InsertBuilding } from "@/db/schema";
 import { getUser } from "@/lib/lucia";
 import { revalidatePath } from "next/cache";
@@ -17,4 +22,14 @@ export async function getCurrentUser() {
 
 export async function findAllBuildings() {
   return await getAllBuildings();
+}
+
+export async function findAllBuildingsByUser(id: number) {
+  return await getBuildingsByUserId(id);
+}
+
+export async function deleteBuilding(id: number) {
+  const building = await deleteBuildingById(id);
+  revalidatePath("/home");
+  return building;
 }

@@ -1,18 +1,18 @@
 import { getUser } from "@/lib/lucia";
-import { Building } from "lucide-react";
 import { redirect } from "next/navigation";
+import Image from "next/image";
 
 export default async function AuthTemplate({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const user = await getUser();
-  if (user) return redirect("/home");
+  // const user = await getUser();
+  // if (user) return redirect("/home");
   return (
     <div className="grid lg:grid-cols-2">
       <section className="flex min-h-dvh flex-col items-center justify-center gap-3.5">
-        <Building className="size-12" />
+        <Image width={48} height={48} alt="logo" src="/enfra.svg" />
         <h1 className="text-3xl font-semibold">Enfra</h1>
         {children}
       </section>

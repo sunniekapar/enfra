@@ -1,12 +1,12 @@
 "use client";
 
-import Map, { Layer, LayerProps, Marker } from "react-map-gl";
+import Map, { Layer, LayerProps, MapRef, Marker } from "react-map-gl";
 
 import "mapbox-gl/dist/mapbox-gl.css";
 import Link from "next/link";
 import BuildingIcon from "@/components/building-icon";
 import { LngLat, MapMouseEvent } from "mapbox-gl";
-import { useContext } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { BuildingContext } from "@/context/buildingContext";
 import { MapPinHouse } from "lucide-react";
 
@@ -36,7 +36,12 @@ export default function WorldMap({
 }: {
   markers: { lat: number; lon: number; type: string; id: number }[];
 }) {
+  const mapRef = useRef<MapRef>(null);
   const { setLon, setLat, lon, lat } = useContext(BuildingContext);
+
+  useEffect(() => {
+    mapRef.current?.flyTo({ center: [lon, lat], duration: 2000 });
+  }, [lat, lon]);
 
   const handleClick = (lngLat: LngLat) => {
     setLon(lngLat.lng);
@@ -45,6 +50,7 @@ export default function WorldMap({
 
   return (
     <Map
+      ref={mapRef}
       mapboxAccessToken="pk.eyJ1Ijoic3Jpbmk0MSIsImEiOiJjbHpkb3FmMmkwcGRzMnJvYTkzaDBleHltIn0.xKlqzZg4eski9OSSnUATww"
       renderWorldCopies={true}
       initialViewState={{
@@ -68,10 +74,10 @@ export default function WorldMap({
         <MapPinHouse className="size-10 text-violet-500" />
       </Marker>
 
-      {markers.map((marker) => (
+      {markers.map((marker, index) => (
         <Link
           href={`/building/${marker.id}`}
-          key={`${marker.lat},${marker.lon}`}
+          key={`${index},${marker.lat},${marker.lon}`}
         >
           <Marker longitude={marker.lon} latitude={marker.lat}>
             <BuildingIcon icon={marker.type} />

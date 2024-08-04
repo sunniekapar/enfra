@@ -3,8 +3,7 @@ import { db } from "@/db";
 import { sessionTable, userTable } from "@/db/schema";
 import { Lucia } from "lucia";
 import { cookies } from "next/headers";
-import { getUserById, getUserByUsername } from "@/db/queries";
-import { eq } from "drizzle-orm";
+import { getUserById } from "@/db/queries";
 
 const adapter = new DrizzleSQLiteAdapter(db, sessionTable, userTable);
 

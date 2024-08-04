@@ -37,7 +37,7 @@ export default function BuildingForm() {
     resolver: zodResolver(insertBuildingFormSchema),
     defaultValues: {
       name: "",
-      type: "",
+      type: "residential",
       lon: lon,
       lat: lat,
       occupancy: 0,
@@ -64,7 +64,7 @@ export default function BuildingForm() {
 
   return (
     <>
-      <h1 className="mb-7 bg-gradient-to-b from-primary to-primary/40 bg-clip-text text-4xl font-bold text-transparent">
+      <h1 className="mb-3.5 bg-gradient-to-b from-primary to-primary/40 bg-clip-text text-2xl font-bold text-transparent lg:mb-7 lg:text-4xl">
         Create your building.
       </h1>
       <Form {...form}>
@@ -79,6 +79,7 @@ export default function BuildingForm() {
                   <FormControl>
                     <Input placeholder="DCC..." {...field} />
                   </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />

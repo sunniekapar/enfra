@@ -38,7 +38,7 @@ export default function CarbonScore({
       </CardHeader>
       <CardContent className="text-center">
         <h2 className="bg-gradient-to-b from-primary to-primary/40 bg-clip-text text-8xl font-bold text-transparent">
-          {carbonEmissions}kt
+          {carbonEmissions.toFixed(1)}kt
         </h2>
       </CardContent>
       <CardFooter className="justify-center">

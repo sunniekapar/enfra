@@ -7,6 +7,7 @@ import { FormResponse } from "@/lib/types";
 import { Argon2id } from "oslo/password";
 import { cookies } from "next/headers";
 import { z } from "zod";
+import { redirect } from "next/navigation";
 
 export async function login(
   values: z.infer<typeof loginFormSchema>,
@@ -60,4 +61,14 @@ export async function signup(
   } catch (error) {
     return { error: "Error inserting user in the database" };
   }
+}
+
+export async function logout() {
+  const sessionCookie = lucia.createBlankSessionCookie();
+  cookies().set(
+    sessionCookie.name,
+    sessionCookie.value,
+    sessionCookie.attributes,
+  );
+  return redirect('/auth')
 }
