@@ -4,7 +4,6 @@
 
   Before you begin, ensure you have the following installed on your machine:
 
-  - [Node.js](https://nodejs.org/)
   - [Bun](https://bun.sh/)
 
   ### Installation
