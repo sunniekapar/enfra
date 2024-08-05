@@ -38,6 +38,10 @@
 
   After completing the setup, you should be able to access the frontend at [http://localhost:3000](http://localhost:3000).
 
-  Here is a YouTube video demonstrating the project:
+  ### Video demo
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/rOtl0IIPvfo" frameborder="0" allowfullscreen></iframe>
+  Here is a quick video demo of Enfra
+
+  https://www.youtube.com/watch?v=rOtl0IIPvfo
+
+  
