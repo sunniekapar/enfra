@@ -40,7 +40,7 @@
 
   ### Video demo
 
-  Here is a quick video demo of Enfra
+  Here is a video demo of Enfra
 
   https://www.youtube.com/watch?v=rOtl0IIPvfo
 
