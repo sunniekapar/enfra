@@ -26,7 +26,7 @@ We started this hackathon with no project ideas and a lot of nerves, yet after 3
 ## What We Learned 💡
 Our team unanimously agrees that participating in this hackathon accelerated our learning far beyond what we could have achieved in weeks. Over the weekend, we enhanced our full-stack development skills, explored new technologies, integrated innovative APIs, and refined our machine learning and data science expertise.
 
-## installation
+## Installation Guide
 ### Prerequisites
 
   Before you begin, ensure you have the following installed on your machine:
