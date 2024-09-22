@@ -1,4 +1,11 @@
 # Enfra - Terrahacks 2024 Winner 🏆
+### Video demo
+
+  Here is a video demo of Enfra
+
+```sh
+  https://www.youtube.com/watch?v=rOtl0IIPvfo
+```
 ## Inspiration
 Our team was inspired to build a sustainability-focused urban planning platform during our walk through the bustling streets of downtown Toronto on our way to TerraHacks. The glaring issues stemming from inadequate urban planning were impossible to ignore. Natural green spaces are being relentlessly paved over, transforming the city into a concrete jungle. The never-ending construction projects have rendered many streets almost unwalkable, and rising crime rates are a growing concern for residents and visitors alike. Witnessing these challenges firsthand ignited our passion to create a solution that addresses these environmental issues not only at an individual level but on a large, city-wide scale.
 
@@ -56,13 +63,5 @@ Our team unanimously agrees that participating in this hackathon accelerated our
 ### Running the Application
 
   After completing the setup, you should be able to access the frontend at [http://localhost:3000](http://localhost:3000).
-
-### Video demo
-
-  Here is a video demo of Enfra
-
-```sh
-  https://www.youtube.com/watch?v=rOtl0IIPvfo
-```
 
   
